@@ -1,11 +1,12 @@
-﻿using BugTracker.Models.Enums;
+﻿using BugTracker.Data.JoiningEntities;
+using BugTracker.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models
 {
     public class Bug
     {
-        int Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -27,8 +28,8 @@ namespace BugTracker.Models
         [Required]
         public User Assignee { get; set; }
 
-        public List<User>? Watchers { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public List<BugWatchers> BugWatchers { get; set; } = new();
+        public List<Comment> Comments { get; set; } = new();
 
         // Labels - Tags?
         // Attachments?

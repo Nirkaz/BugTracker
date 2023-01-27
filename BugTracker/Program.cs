@@ -1,3 +1,6 @@
+using BugTracker.Data;
+using Microsoft.EntityFrameworkCore;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -6,6 +9,10 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+        builder.Services.AddDbContext<BugTrackerContext>(options => options.UseSqlServer(connection));
 
         var app = builder.Build();
 

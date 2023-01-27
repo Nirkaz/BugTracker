@@ -1,4 +1,5 @@
-﻿using BugTracker.Models.Enums;
+﻿using BugTracker.Data.JoiningEntities;
+using BugTracker.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace BugTracker.Models
@@ -24,9 +25,9 @@ namespace BugTracker.Models
         public DateTime ModifiedDate { get; set; }
         public DateTime LastLogin { get; set; }
 
-        public List<Bug>? CreatedBugs { get; set; }
-        public List<Bug>? AssignedBugs { get; set; }
-        public List<Bug>? WatchedBugs { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public List<Bug> CreatedBugs { get; set; } = new();
+        public List<Bug> AssignedBugs { get; set; } = new();
+        public List<BugWatchers> WatchedBugs { get; set; } = new();
+        public List<Comment> Comments { get; set; } = new();
     }
 }
