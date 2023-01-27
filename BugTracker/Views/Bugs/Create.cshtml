@@ -1,5 +1,6 @@
 ﻿@using BugTracker.Models.Enums;
-@model BugTracker.Models.Bug
+@using BugTracker.ViewModels;
+@model BugCreationViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,34 +15,39 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Bug.Title" class="control-label"></label>
+                <input asp-for="Bug.Title" class="form-control" />
+                <span asp-validation-for="Bug.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="Bug.Description" class="control-label"></label>
+                <input asp-for="Bug.Description" class="form-control" />
+                <span asp-validation-for="Bug.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Severity" class="control-label"></label>
-                <select asp-for="Severity" asp-items="Html.GetEnumSelectList<Severity>()" class="form-control"></select>
-                <span asp-validation-for="Severity" class="text-danger"></span>
+                <label asp-for="Bug.Severity" class="control-label"></label>
+                <select asp-for="Bug.Severity" asp-items="Html.GetEnumSelectList<Severity>()" class="form-control"></select>
+                <span asp-validation-for="Bug.Severity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Priotity" class="control-label"></label>
-                <select asp-for="Priotity" asp-items="Html.GetEnumSelectList<Priority>()" class="form-control"></select>
-                <span asp-validation-for="Priotity" class="text-danger"></span>
+                <label asp-for="Bug.Priotity" class="control-label"></label>
+                <select asp-for="Bug.Priotity" asp-items="Html.GetEnumSelectList<Priority>()" class="form-control"></select>
+                <span asp-validation-for="Bug.Priotity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()" class="form-control"></select>
-                <span asp-validation-for="Status" class="text-danger"></span>
+                <label asp-for="Bug.Status" class="control-label"></label>
+                <select asp-for="Bug.Status" asp-items="Html.GetEnumSelectList<Status>()" class="form-control"></select>
+                <span asp-validation-for="Bug.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DueDate" class="control-label"></label>
-                <input asp-for="DueDate" class="form-control" />
-                <span asp-validation-for="DueDate" class="text-danger"></span>
+                <label asp-for="Bug.Assignee" class="control-label"></label>
+                <select asp-for="Bug.Assignee" asp-items="new SelectList(Model.UsersToAssign)" class="form-control"></select>
+                <span asp-validation-for="Bug.Assignee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bug.DueDate" class="control-label"></label>
+                <input asp-for="Bug.DueDate" class="form-control" />
+                <span asp-validation-for="Bug.DueDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

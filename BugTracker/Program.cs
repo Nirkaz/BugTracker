@@ -1,5 +1,6 @@
 using BugTracker.Data;
 using BugTracker.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ internal class Program
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<BugTrackerContext>()
             .AddDefaultTokenProviders();
+
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(x => x.LoginPath = "Account/Login");
 
         var app = builder.Build();
 

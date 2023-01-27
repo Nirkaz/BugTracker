@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace BugTracker.ViewModels
 {
-    public class BugDetailsViewModel
+    public class BugCreationViewModel
     {
         public Bug Bug { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<User> UsersToAssign { get; set; }
     }
 }

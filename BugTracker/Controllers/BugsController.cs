@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BugTracker.Data;
 using BugTracker.Models;
 using Microsoft.AspNetCore.Authorization;
+using BugTracker.ViewModels;
 
 namespace BugTracker.Controllers
 {
-    //[Authorize] //404
+    [Authorize]
     public class BugsController : Controller
     {
         private readonly BugTrackerContext _context;
@@ -48,7 +44,8 @@ namespace BugTracker.Controllers
         // GET: Bugs/Create
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new BugCreationViewModel() { UsersToAssign = _context.Users.ToList() };
+            return View(viewModel);
         }
 
         // POST: Bugs/Create
@@ -58,8 +55,6 @@ namespace BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] Bug bug)
         {
-            // Assignee?
-            // Reporter
             if (ModelState.IsValid)
             {
                 _context.Add(bug);
