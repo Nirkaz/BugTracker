@@ -1,13 +1,15 @@
 ﻿using BugTracker.Data.JoiningEntities;
 using BugTracker.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.Data
 {
-    public class BugTrackerContext : DbContext
+    public class BugTrackerContext : IdentityDbContext<User>
     {
         public DbSet<Bug> Bugs { get; set; }
-        public DbSet<User> Users { get; set; }
+        public override DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
         public BugTrackerContext(DbContextOptions<BugTrackerContext> options) : base(options)
@@ -17,6 +19,8 @@ namespace BugTracker.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<BugWatchers>(entity =>
             {
                 entity.HasKey(k => new { k.BugId, k.UserId });

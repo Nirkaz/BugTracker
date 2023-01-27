@@ -1,4 +1,6 @@
 using BugTracker.Data;
+using BugTracker.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
@@ -14,6 +16,10 @@ internal class Program
 
         builder.Services.AddDbContext<BugTrackerContext>(options => options.UseSqlServer(connection));
 
+        builder.Services.AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<BugTrackerContext>()
+            .AddDefaultTokenProviders();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -28,7 +34,7 @@ internal class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllerRoute(
