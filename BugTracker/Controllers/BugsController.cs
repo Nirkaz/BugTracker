@@ -4,6 +4,10 @@ using BugTracker.Data;
 using BugTracker.Models;
 using Microsoft.AspNetCore.Authorization;
 using BugTracker.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 
 namespace BugTracker.Controllers
 {
@@ -11,10 +15,12 @@ namespace BugTracker.Controllers
     public class BugsController : Controller
     {
         private readonly BugTrackerContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public BugsController(BugTrackerContext context)
+        public BugsController(BugTrackerContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Bugs
@@ -42,9 +48,11 @@ namespace BugTracker.Controllers
         }
 
         // GET: Bugs/Create
-        public IActionResult Create()
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            var viewModel = new BugCreationViewModel() { UsersToAssign = _context.Users.ToList() };
+            var users = await _context.Users.ToListAsync();
+            var viewModel = new BugCreationViewModel { UsersToAssign = users };
             return View(viewModel);
         }
 
@@ -53,15 +61,28 @@ namespace BugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] Bug bug)
+        public async Task<IActionResult> Create([FromForm] BugCreationViewModel bugViewModel)
         {
-            if (ModelState.IsValid)
+            var selectedUserId = bugViewModel.Bug.AssigneeId;
+            var selectedUser = _context.Users.FirstOrDefault(u => u.Id == selectedUserId);
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            
+            ModelState.Remove("Bug.Assignee");
+            ModelState.Remove("Bug.Reporter");
+            ModelState.Remove("Bug.ReporterId");
+
+            if (ModelState.IsValid && currentUser != null && selectedUser != null)
             {
-                _context.Add(bug);
+                bugViewModel.Bug.Reporter = currentUser;
+                bugViewModel.Bug.ReporterId = currentUser.Id;
+                bugViewModel.Bug.Assignee = selectedUser;
+                _context.Add(bugViewModel.Bug);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(bug);
+
+            bugViewModel.UsersToAssign = _context.Users.ToList();
+            return View(bugViewModel);
         }
 
         // GET: Bugs/Edit/5

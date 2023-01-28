@@ -24,8 +24,10 @@ namespace BugTracker.Models
         public DateTime DueDate { get; set; }
 
         [Required]
+        public string ReporterId { get; set; }
         public User Reporter { get; set; }
         [Required]
+        public string AssigneeId { get; set; }
         public User Assignee { get; set; }
 
         public List<BugWatchers> BugWatchers { get; set; } = new();

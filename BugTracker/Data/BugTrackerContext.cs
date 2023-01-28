@@ -42,10 +42,12 @@ namespace BugTracker.Data
 
                 entity.HasOne(o => o.Reporter)
                     .WithMany(m => m.CreatedBugs)
+                    .HasForeignKey(fk => fk.ReporterId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(o => o.Assignee)
                     .WithMany(m => m.AssignedBugs)
+                    .HasForeignKey(fk => fk.AssigneeId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(m => m.Comments).WithOne(o => o.Bug);

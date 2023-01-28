@@ -34,7 +34,7 @@ namespace BugTracker.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BugWatchers");
+                    b.ToTable("BugWatchers", (string)null);
                 });
 
             modelBuilder.Entity("BugTracker.Models.Bug", b =>
