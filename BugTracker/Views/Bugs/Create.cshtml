@@ -9,58 +9,67 @@
 
 <h1>Create</h1>
 
-<h4>Bug</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Bug.Title" class="control-label"></label>
-                <input asp-for="Bug.Title" class="form-control" />
-                <span asp-validation-for="Bug.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bug.Description" class="control-label"></label>
-                <input asp-for="Bug.Description" class="form-control" />
-                <span asp-validation-for="Bug.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bug.Severity" class="control-label"></label>
-                <select asp-for="Bug.Severity" asp-items="Html.GetEnumSelectList<Severity>()" class="form-control"></select>
-                <span asp-validation-for="Bug.Severity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bug.Priotity" class="control-label"></label>
-                <select asp-for="Bug.Priotity" asp-items="Html.GetEnumSelectList<Priority>()" class="form-control"></select>
-                <span asp-validation-for="Bug.Priotity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Bug.Title" class="control-label"></label>
+            <input asp-for="Bug.Title" class="form-control" />
+            <span asp-validation-for="Bug.Title" class="text-danger"></span>
+        </div>
+        <div class="row my-3">
+            <div class="form-group col-md-4">
                 <label asp-for="Bug.Status" class="control-label"></label>
                 <select asp-for="Bug.Status" asp-items="Html.GetEnumSelectList<Status>()" class="form-control"></select>
                 <span asp-validation-for="Bug.Status" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-4">
+                <label asp-for="Bug.Severity" class="control-label"></label>
+                <select asp-for="Bug.Severity" asp-items="Html.GetEnumSelectList<Severity>()" class="form-control"></select>
+                <span asp-validation-for="Bug.Severity" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="Bug.Priotity" class="control-label"></label>
+                <select asp-for="Bug.Priotity" asp-items="Html.GetEnumSelectList<Priority>()" class="form-control"></select>
+                <span asp-validation-for="Bug.Priotity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
                 <label asp-for="Bug.Assignee" class="control-label"></label>
                 <select asp-for="Bug.AssigneeId" asp-items="new SelectList(Model.UsersToAssign, nameof(BugTracker.Models.User.Id), nameof(BugTracker.Models.User.UserName))" class="form-control"></select>
                 <span asp-validation-for="Bug.AssigneeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col">
                 <label asp-for="Bug.DueDate" class="control-label"></label>
                 <input asp-for="Bug.DueDate" class="form-control" />
                 <span asp-validation-for="Bug.DueDate" class="text-danger"></span>
             </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="Bug.Description" class="control-label"></label>
+            <textarea asp-for="Bug.Description" class="form-control" rows="5"></textarea>
+            @*<textarea id="myTextarea" asp-for="Bug.Description" class="form-control">This is some example text.</textarea>*@
+            <span asp-validation-for="Bug.Description" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="d-flex justify-content-between">
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+            <a asp-action="Index" class="btn btn-outline-danger">Back to List</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+          selector: '#myTextarea'
+        });
+    </script>
 }

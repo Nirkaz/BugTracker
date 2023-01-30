@@ -70,6 +70,7 @@ namespace BugTracker.Controllers
             ModelState.Remove("Bug.Assignee");
             ModelState.Remove("Bug.Reporter");
             ModelState.Remove("Bug.ReporterId");
+            ModelState.Remove("UsersToAssign");
 
             if (ModelState.IsValid && currentUser != null && selectedUser != null)
             {
