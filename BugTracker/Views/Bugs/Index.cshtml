@@ -1,23 +1,19 @@
-﻿@model IEnumerable<BugTracker.Models.Bug>
+﻿@using System.Globalization;
+@model IEnumerable<BugTracker.Models.Bug>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h1>Current issues:</h1>
+<table class="table align-middle">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+            <th>Reporter</th>
+            <th>Assignee</th>
             <th>
                 @Html.DisplayNameFor(model => model.Severity)
             </th>
@@ -27,15 +23,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DueDate)
-            </th>
+            <th>Created</th>
+            <th>Due date</th>
+            <th>Modiffied</th>
             <th></th>
         </tr>
     </thead>
@@ -45,9 +35,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+            <td>@item.Reporter.UserName</td>
+            <td>@item.Assignee.UserName</td>
             <td>
                 @Html.DisplayFor(modelItem => item.Severity)
             </td>
@@ -58,20 +47,23 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
+                @item.CreatedDate.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
+                @item.DueDate.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
+                @item.ModifiedDate.ToString("dd/MMM/yyyy", CultureInfo.InvariantCulture)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="bi bi-card-text me-2"></i>Details</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-square me-2"></i>Create New
+    </a>
+</p>

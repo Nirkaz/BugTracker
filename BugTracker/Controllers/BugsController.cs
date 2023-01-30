@@ -26,7 +26,7 @@ namespace BugTracker.Controllers
         // GET: Bugs
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Bugs.ToListAsync());
+            return View(await _context.Bugs.Include(i => i.Assignee).Include(i => i.Reporter).ToListAsync());
         }
 
         // GET: Bugs/Details/5
