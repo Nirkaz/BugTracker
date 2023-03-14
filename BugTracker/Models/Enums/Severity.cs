@@ -1,10 +1,9 @@
-﻿namespace BugTracker.Models.Enums
+﻿namespace BugTracker.Models.Enums;
+
+public enum Severity
 {
-    public enum Severity
-    {
-        Low,
-        Minor,
-        Major,
-        Critical
-    }
+    Low,
+    Minor,
+    Major,
+    Critical
 }

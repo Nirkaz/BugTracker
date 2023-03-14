@@ -1,10 +1,9 @@
-﻿namespace BugTracker.Models.Enums
+﻿namespace BugTracker.Models.Enums;
+
+public enum Priority
 {
-    public enum Priority
-    {
-        Low,
-        Medium,
-        High,
-        Immediate
-    }
+    Low,
+    Medium,
+    High,
+    Immediate
 }

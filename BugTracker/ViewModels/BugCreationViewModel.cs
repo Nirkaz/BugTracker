@@ -1,11 +1,10 @@
 ﻿using BugTracker.Models;
 using System.Collections;
 
-namespace BugTracker.ViewModels
+namespace BugTracker.ViewModels;
+
+public class BugCreationViewModel
 {
-    public class BugCreationViewModel
-    {
-        public Bug Bug { get; set; }
-        public List<User> UsersToAssign { get; set; }
-    }
+    public Bug Bug { get; set; }
+    public List<User>? UsersToAssign { get; set; }
 }

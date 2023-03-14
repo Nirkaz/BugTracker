@@ -1,19 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BugTracker.ViewModels
+namespace BugTracker.ViewModels;
+
+public class LoginViewModel
 {
-    public class LoginViewModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+    [EmailAddress]
+    public required string Email { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+    [DataType(DataType.Password)]
+    public required string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
-
+    [Display(Name = "Remember me?")]
+    public bool RememberMe { get; set; }
 }

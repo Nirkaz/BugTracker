@@ -1,18 +1,17 @@
-﻿namespace BugTracker.Models.Enums
+﻿namespace BugTracker.Models.Enums;
+
+public enum Status
 {
-    public enum Status
-    {
-        Backlog,
-        New,
-        Open,
-        Duplicate,
-        Rejected,
-        Deferred,
-        Assigned,
-        Fixed,
-        ReTest,
-        ReOpen,
-        Verified,
-        Closed
-    }
+    Backlog,
+    New,
+    Open,
+    Duplicate,
+    Rejected,
+    Deferred,
+    Assigned,
+    Fixed,
+    ReTest,
+    ReOpen,
+    Verified,
+    Closed
 }

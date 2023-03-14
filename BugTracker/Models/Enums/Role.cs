@@ -1,11 +1,10 @@
-﻿namespace BugTracker.Models.Enums
+﻿namespace BugTracker.Models.Enums;
+
+public enum Role
 {
-    public enum Role
-    {
-        Guest,
-        Tester,
-        Developer,
-        Manager,
-        Administrator
-    }
+    Guest,
+    Tester,
+    Developer,
+    Manager,
+    Administrator
 }

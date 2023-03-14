@@ -4,62 +4,59 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BugTracker.Data
+namespace BugTracker.Data;
+
+public class BugTrackerContext : IdentityDbContext<User>
 {
-    public class BugTrackerContext : IdentityDbContext<User>
+    public DbSet<Bug> Bugs { get; set; }
+    public override DbSet<User> Users { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+
+    public BugTrackerContext(DbContextOptions<BugTrackerContext> options) : base(options)
     {
-        public DbSet<Bug> Bugs { get; set; }
-        public override DbSet<User> Users { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        //Database.EnsureCreated();
+    }
 
-        public BugTrackerContext(DbContextOptions<BugTrackerContext> options) : base(options)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<BugWatchers>(entity =>
         {
-            //Database.EnsureCreated();
-        }
+            entity.HasKey(k => new { k.BugId, k.UserId });
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+            entity.HasOne(o => o.Bug)
+                .WithMany(m => m.BugWatchers)
+                .HasForeignKey(fk => fk.BugId)
+                .IsRequired(false);
+
+            entity.HasOne(o => o.User)
+                .WithMany(m => m.WatchedBugs)
+                .HasForeignKey(fk => fk.UserId)
+                .IsRequired(false);
+        });
+
+        modelBuilder.Entity<Bug>(entity => 
         {
-            base.OnModelCreating(modelBuilder);
+            entity.ToTable("Bugs");
 
-            modelBuilder.Entity<BugWatchers>(entity =>
-            {
-                entity.HasKey(k => new { k.BugId, k.UserId });
+            entity.HasOne(o => o.Reporter)
+                .WithMany(m => m.CreatedBugs)
+                .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(o => o.Bug)
-                    .WithMany(m => m.BugWatchers)
-                    .HasForeignKey(fk => fk.BugId)
-                    .IsRequired(false);
+            entity.HasOne(o => o.Assignee)
+                .WithMany(m => m.AssignedBugs)
+                .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(o => o.User)
-                    .WithMany(m => m.WatchedBugs)
-                    .HasForeignKey(fk => fk.UserId)
-                    .IsRequired(false);
-            });
+            entity.HasMany(m => m.Comments).WithOne(o => o.Bug);
+        });
 
-            modelBuilder.Entity<Bug>(entity => 
-            {
-                entity.ToTable("Bugs");
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.ToTable("Users");
+            entity.HasMany(m => m.Comments).WithOne(o => o.Author);
+        });
 
-                entity.HasOne(o => o.Reporter)
-                    .WithMany(m => m.CreatedBugs)
-                    .HasForeignKey(fk => fk.ReporterId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(o => o.Assignee)
-                    .WithMany(m => m.AssignedBugs)
-                    .HasForeignKey(fk => fk.AssigneeId)
-                    .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasMany(m => m.Comments).WithOne(o => o.Bug);
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("Users");
-                entity.HasMany(m => m.Comments).WithOne(o => o.Author);
-            });
-
-            modelBuilder.Entity<Comment>().ToTable("Comments");
-        }
+        modelBuilder.Entity<Comment>().ToTable("Comments");
     }
 }
