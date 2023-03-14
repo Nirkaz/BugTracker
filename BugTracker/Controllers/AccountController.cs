@@ -1,5 +1,6 @@
 ﻿using BugTracker.Models;
 using BugTracker.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,7 +59,9 @@ public class AccountController : Controller
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
+            {
                 return RedirectToAction("index", "home");
+            }
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -70,9 +73,11 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult Profile()
+    [Authorize]
+    public async Task<IActionResult> Profile()
     {
-        return View(); // ToDo
+        var user = await _userManager.GetUserAsync(User);
+        return View(user);
     }
 
     [HttpPost]

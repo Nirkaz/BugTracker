@@ -154,5 +154,8 @@ public class BugsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private bool BugExists(int id) => _context.Bugs.Any(e => e.Id == id);
+    private bool BugExists(int id)
+    {
+        return _context.Bugs.Any(e => e.Id == id);
+    }
 }

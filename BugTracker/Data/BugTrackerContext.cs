@@ -17,11 +17,11 @@ public class BugTrackerContext : IdentityDbContext<User>
         //Database.EnsureCreated();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
 
-        modelBuilder.Entity<BugWatchers>(entity =>
+        builder.Entity<BugWatchers>(entity =>
         {
             entity.HasKey(k => new { k.BugId, k.UserId });
 
@@ -36,7 +36,7 @@ public class BugTrackerContext : IdentityDbContext<User>
                 .IsRequired(false);
         });
 
-        modelBuilder.Entity<Bug>(entity => 
+        builder.Entity<Bug>(entity => 
         {
             entity.ToTable("Bugs");
 
@@ -51,12 +51,12 @@ public class BugTrackerContext : IdentityDbContext<User>
             entity.HasMany(m => m.Comments).WithOne(o => o.Bug);
         });
 
-        modelBuilder.Entity<User>(entity =>
+        builder.Entity<User>(entity =>
         {
             entity.ToTable("Users");
             entity.HasMany(m => m.Comments).WithOne(o => o.Author);
         });
 
-        modelBuilder.Entity<Comment>().ToTable("Comments");
+        builder.Entity<Comment>().ToTable("Comments");
     }
 }
