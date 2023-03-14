@@ -5,7 +5,7 @@
 namespace BugTracker.Migrations
 {
     /// <inheritdoc />
-    public partial class fixusernullablefields : Migration
+    public partial class FixUserNullableFields : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

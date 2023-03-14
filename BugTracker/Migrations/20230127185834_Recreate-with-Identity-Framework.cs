@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BugTracker.Migrations
 {
     /// <inheritdoc />
-    public partial class RecreatewithIdentityFramework : Migration
+    public partial class RecreateWithIdentityFramework : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Migrations
 {
     [DbContext(typeof(BugTrackerContext))]
-    [Migration("20230127185834_Recreate-with-Identity-Framework")]
-    partial class RecreatewithIdentityFramework
+    [Migration("20230127185834_Recreate-With-Identity-Framework")]
+    partial class RecreateWithIdentityFramework
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Migrations
 {
     [DbContext(typeof(BugTrackerContext))]
-    [Migration("20230127194852_fix-user-nullable-fields")]
-    partial class fixusernullablefields
+    [Migration("20230127194852_Fix-User-Nullable-Fields")]
+    partial class FixUserNullableFields
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
